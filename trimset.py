@@ -2,7 +2,11 @@ import json
 import pandas as pd
 import csv
 import time
+from datetime import datetime  
+
 start = time.time()
+date_time = datetime.fromtimestamp(start)
+print('startet at: ', date_time)
 
 print('Starting JSON conversion')
 data_file = open("data\\yelp_academic_dataset_business.json", encoding='utf-8')
@@ -36,7 +40,7 @@ print('Restaurants in dict, time elapsed: ', end - start)
 data_file = open("data\\yelp_academic_dataset_review.json", encoding='utf-8')
 review_df = pd.DataFrame(data_file)
 data_file.close()
-restaurant_revs = {}
+restaurant_revs = []
 end = time.time()
 print('review file loaded, time elapsed: ', end - start)
 
@@ -46,11 +50,16 @@ for z in review_df.to_numpy():
     #handles categories with null
     if review_data['business_id'] and review_data['business_id'] in restaurant_dict.keys():
             if review_data['stars'] >2:
-                restaurant_revs.update({'review_id': review_data['review_id'], 'text':review_data['text'], 'label': 1})                
+                restaurant_revs.append({'review_id': review_data['review_id'], 'text':review_data['text'], 'label': 1})                
             else:     
-                restaurant_revs.update({'review_id': review_data['review_id'], 'text':review_data['text'], 'label': 0})
+                restaurant_revs.append({'review_id': review_data['review_id'], 'text':review_data['text'], 'label': 0})
     else: 
         pass
+
+
+# print(restaurant_revs[:5])
+
+
 end = time.time()
 print('review data labeled, time elapsed: ', end - start)
 
@@ -61,6 +70,7 @@ print('Starting CSV creation')
 with open('reviews_labeled.csv', 'w') as csvfile:
     writer = csv.DictWriter(csvfile, fieldnames = csv_field_names, extrasaction='ignore')
     writer.writeheader()
-    writer.writerows(restaurant_revs)    
+    writer.writerows(restaurant_revs)
+# print(type(restaurant_revs))    
 end = time.time()
 print('csv done, time elapsed: ', end - start)
