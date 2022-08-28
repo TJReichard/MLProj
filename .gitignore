@@ -1,0 +1,5 @@
+data/
+*.csv
+*.ipynb
+*.tar.gz
+aclimdb/

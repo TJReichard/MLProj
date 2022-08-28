@@ -1,0 +1,1 @@
+trying to wrap our heads around json manipulation and first baby steps with some kind of sentiment analysis
