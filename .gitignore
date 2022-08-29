@@ -1,5 +1,8 @@
 data/
+yelp_review_polarity_csv/
 *.csv
-*.ipynb
+text_classification.ipynb
+test.ipynb
+kerastry.ipynb
 *.tar.gz
 aclimdb/
